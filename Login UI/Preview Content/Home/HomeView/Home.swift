@@ -7,17 +7,25 @@
 
 import SwiftUI
 
+
 struct Home: View {
-  var email: String?
+    @StateObject private var viewModel = ViewModel()
+    var email: String?
     var body: some View {
-        @State  var viewModel = ViewModel()
         NavigationStack{
             VStack{
-                List(viewModel.Users,id:\.self){ item in
-                    NavigationLink(destination: ChatView( userName:item.Name)) {
-                        Text("\(item.Email)").padding()
-                        
+                
+                List {
+                    ForEach(viewModel.User, id: \.self) { item in
+                        VStack(alignment: .leading) {
+                            NavigationLink(destination: ChatView(userName:"\( item.id)")){
+                                Text(item.title)
+                            }
+                        }
                     }
+                }
+                .onAppear {
+                    viewModel.loadData()
                 }
                 
             }

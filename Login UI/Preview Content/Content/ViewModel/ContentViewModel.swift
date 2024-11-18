@@ -12,7 +12,7 @@ extension ContentView{
 
 
     class ViewModel{
-      var email = ""
+      var email = "Abhnab1221@gmail.com"
          var password = ""
         func pressed(){
             print("Button Pressed 3")

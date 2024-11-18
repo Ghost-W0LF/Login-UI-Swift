@@ -19,7 +19,6 @@ struct ContentView: View {
                     
                     Section{
                         TextField("Enter your email",text:  $viewModel.email)
-                        
                         TextField("Enter your Password",text:  $viewModel.password)
                         
                     }
