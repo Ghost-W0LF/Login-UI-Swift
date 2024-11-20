@@ -1,11 +1,22 @@
 import Foundation
 
-struct UserModel: Hashable, Codable {
-    let userID, id: Int
-    let title, body: String
+struct UserModel:Hashable, Decodable {
+   let userId: Int
+   let id: Int
+   let title: String
+   let body: String
+}
+// Request Model (Optional, if you use Encodable)
+struct PostRequest: Encodable {
+    let title: String
+    let body: String
+    let userId: Int
+}
 
-    enum CodingKeys: String, CodingKey {
-        case userID = "userId"
-        case id, title, body
-    }
+// Response Model (Decodable)
+struct PostResponse: Decodable {
+    let id: Int
+    let title: String
+    let body: String
+    let userId: Int
 }

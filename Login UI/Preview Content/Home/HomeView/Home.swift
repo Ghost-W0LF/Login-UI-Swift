@@ -8,13 +8,12 @@
 import SwiftUI
 
 
+
 struct Home: View {
     @StateObject private var viewModel = ViewModel()
     var email: String?
     var body: some View {
         NavigationStack{
-            VStack{
-                
                 List {
                     ForEach(viewModel.User, id: \.self) { item in
                         VStack(alignment: .leading) {
@@ -28,7 +27,7 @@ struct Home: View {
                     viewModel.loadData()
                 }
                 
-            }
+            
         }
     }
 }
