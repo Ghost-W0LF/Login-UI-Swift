@@ -5,37 +5,55 @@ import Alamofire
 
 extension Home {
     class ViewModel: ObservableObject {
-  
+
+        // Create the Alamofire session with the custom interceptor
+        let session = Session(interceptor: CustomInterceptor())
         @Published var User: [UserModel] = []
         let baseUrl = "https://jsonplaceholder.typicode.com/posts"
         func loadData() {
-            AF.request(baseUrl,method: .get)
-                .responseDecodable(of:[UserModel].self){response in
+            
+            // using interceptor
+            session.request(baseUrl)
+                .responseDecodable(of: [UserModel].self) { response in
                     switch response.result {
-                    case .success(let fetchedPosts):
- // Assign response to the variable
+                    case .success(let data):
                         DispatchQueue.main.async {
-                                               self.User = fetchedPosts
-                                         }
+                            self.User = data // Assign response to the variable
+                        }
                     case .failure(let error):
                         print("Error: \(error.localizedDescription)")
                     }
                 }
             
-            let request = PostRequest(title: "Abhinav", body: "bar", userId: 1)
+            //            let interceptor = CustomInterceptor()
+            //            let session = Session(interceptor: interceptor)
+            //
+            //            AF.request(baseUrl,method: .get)
+            //                .responseDecodable(of:[UserModel].self){response in
+            //                    switch response.result {
+            //                    case .success(let fetchedPosts):
+            //                        DispatchQueue.main.async {
+            //                            self.User = fetchedPosts // Assign response to the variable
+            //                        }
+            //                    case .failure(let error):
+            //                        print("Error: \(error.localizedDescription)")
+            //                    }
+            //                }
+            //            Post request
+            let postRequest = PostRequest(title: "Abhinav", body: "bar", userId: 1)
             
-            AF.request(baseUrl,method: .post,parameters: request,encoder: JSONParameterEncoder.default)
+            AF.request(baseUrl,method: .post,parameters: postRequest, encoder: JSONParameterEncoder.default)
                 .responseDecodable(of:PostResponse.self){response in
                     switch response.result {
-                          case .success(let post):
-                              print("Created Post: \(post)")
-                          case .failure(let error):
-                              print("Error: \(error.localizedDescription)")
-                          }
+                    case .success(let post):
+                        print("Created Post: \(post)")
+                    case .failure(let error):
+                        print("Error: \(error.localizedDescription)")
+                    }
                 }
             
-         
-            //
+            
+            // get method using URLSession
             //            guard let url = URL(string: "https://jsonplaceholder.typicode.com/posts") else {
             //                print("Invalid URL")
             //                return

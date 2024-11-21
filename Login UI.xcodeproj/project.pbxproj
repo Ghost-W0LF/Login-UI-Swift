@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		BB229E2E2CEDA30900737474 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = BB229E2D2CEDA30900737474 /* Alamofire */; };
+		BB229E3D2CEDC19A00737474 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = BB229E3C2CEDC19A00737474 /* Alamofire */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,7 +69,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BB229E2E2CEDA30900737474 /* Alamofire in Frameworks */,
+				BB229E3D2CEDC19A00737474 /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -139,7 +139,7 @@
 			);
 			name = "Login UI";
 			packageProductDependencies = (
-				BB229E2D2CEDA30900737474 /* Alamofire */,
+				BB229E3C2CEDC19A00737474 /* Alamofire */,
 			);
 			productName = "Login UI";
 			productReference = BB046CF22CE757DD00294E86 /* Login UI.app */;
@@ -224,7 +224,7 @@
 			mainGroup = BB046CE92CE757DD00294E86;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				BB0066BD2CEDA09A0069EB66 /* XCRemoteSwiftPackageReference "Alamofire" */,
+				BB229E3B2CEDC19300737474 /* XCRemoteSwiftPackageReference "Alamofire" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = BB046CF32CE757DD00294E86 /* Products */;
@@ -423,6 +423,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"ASSETCATALOG_COMPILER_APPICON_NAME[sdk=iphoneos*]" = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_STYLE = Automatic;
@@ -441,6 +442,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.example.Login-UI";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -471,6 +473,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.example.Login-UI";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -593,7 +596,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		BB0066BD2CEDA09A0069EB66 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+		BB229E3B2CEDC19300737474 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
 			requirement = {
@@ -604,9 +607,9 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		BB229E2D2CEDA30900737474 /* Alamofire */ = {
+		BB229E3C2CEDC19A00737474 /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = BB0066BD2CEDA09A0069EB66 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			package = BB229E3B2CEDC19300737474 /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
 		};
 /* End XCSwiftPackageProductDependency section */

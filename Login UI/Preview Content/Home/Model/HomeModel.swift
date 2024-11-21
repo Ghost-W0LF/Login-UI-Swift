@@ -7,7 +7,7 @@ struct UserModel:Hashable, Decodable {
    let body: String
 }
 // Request Model (Optional, if you use Encodable)
-struct PostRequest: Encodable {
+struct PostRequest: Codable {
     let title: String
     let body: String
     let userId: Int
