@@ -15,29 +15,34 @@ struct ContentView: View {
     
     
     var body: some View {
-        @State  var token = viewModel.responseModel?.token
-        @State var navigate = false
+
+      
+        @State  var navigate = viewModel.tokenData != ""
+
         NavigationStack{
             VStack() {
                 Form{
                     Section{
-                        TextField("Enter your email",text:  $viewModel.email)
+                        TextField("Enter  your email",text:  $viewModel.email)
                         TextField("Enter your Password",text:  $viewModel.password)
-                        Text(viewModel.email )
+                        Text( viewModel.email)
+                        Text( viewModel.password)
                         Text(viewModel.responseModel?.token ?? "")
                     }
                     Section{
                         Button("Login"){
                             viewModel.loginRequest()
+                            navigate = true
                
                         }
-                        .navigationDestination(isPresented: $navigate
-                      
-                        ) {
+                        .navigationDestination(isPresented: $navigate ) {
                             Home(email:viewModel.email) // Navigate to Home view
                         }
                         
                     }.disabled( viewModel.email.count<5 ||  viewModel.password.count<5 || !viewModel.email.contains("@"))
+                    Button("Delete value pair for this email"){
+                        viewModel.deleteValue()
+                    }
                 }
                 Button("Update Password to keychain"){
                     viewModel.updatePassword()
@@ -45,6 +50,8 @@ struct ContentView: View {
                 Button("Get Password from keychain"){
                     viewModel.retrivePassword()
                 }
+            }.onAppear{
+                viewModel.retriveToken()
             }
             
             

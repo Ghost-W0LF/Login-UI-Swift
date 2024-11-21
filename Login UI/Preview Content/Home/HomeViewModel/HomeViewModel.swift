@@ -39,19 +39,7 @@ extension Home {
             //                        print("Error: \(error.localizedDescription)")
             //                    }
             //                }
-            //            Post request
-            let postRequest = PostRequest(title: "Abhinav", body: "bar", userId: 1)
-            
-            AF.request(baseUrl,method: .post,parameters: postRequest, encoder: JSONParameterEncoder.default)
-                .responseDecodable(of:PostResponse.self){response in
-                    switch response.result {
-                    case .success(let post):
-                        print("Created Post: \(post)")
-                    case .failure(let error):
-                        print("Error: \(error.localizedDescription)")
-                    }
-                }
-            
+            //           // Post request
             
             // get method using URLSession
             //            guard let url = URL(string: "https://jsonplaceholder.typicode.com/posts") else {
