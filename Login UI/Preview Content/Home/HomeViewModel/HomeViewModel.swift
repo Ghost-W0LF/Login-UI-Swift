@@ -5,11 +5,23 @@ import Alamofire
 
 extension Home {
     class ViewModel: ObservableObject {
+        
 
         // Create the Alamofire session with the custom interceptor
         let session = Session(interceptor: CustomInterceptor())
         @Published var User: [UserModel] = []
         let baseUrl = "https://jsonplaceholder.typicode.com/posts"
+        
+        
+        func deleteValue() {
+            do{
+                try KeychainManager.deleteItem(keyPair: "token")
+                debugPrint("Token deleted ")
+            }catch{debugPrint(error)}
+        }
+        
+        
+        
         func loadData() {
             
             // using interceptor

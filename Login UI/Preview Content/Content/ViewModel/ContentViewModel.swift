@@ -14,15 +14,66 @@ extension ContentView{
     class ViewModel: ObservableObject {
         
         var email:String  = "Abhinab1221@gmail.com"
-        
          var password = "akkhatri"
         var responseModel: LoginResponse?
-        
-        
+        var isShowingIncorectPassword = false
         let session = Session(interceptor: CustomInterceptor())
         let baseUrl = "https://tbe.thuprai.com/v1/api/login/"
         
           var tokenData : String = ""
+        
+        func loginRequest() {
+            
+            let credential = LoginRequest(password: password, username: email)
+            
+            session.request(baseUrl, method: .post, parameters: credential, encoder: JSONParameterEncoder.default)
+                .responseDecodable(of: LoginResponse.self) { response in
+                    switch response.result{
+                    case.success(let data):
+                        DispatchQueue.main.async{
+                            self.responseModel = data
+                            self.tokenData = data.token
+                        }
+                        let token = data.token
+                        // Store token
+                        do{
+                            try KeychainManager.storePassword(password: token ,email: "token")
+                            print("Token stored successfully.")
+                        }catch {
+                            print("Unexpected error: \(error)")
+                        }
+                        // Store password
+                        
+//                        do {
+//                            try KeychainManager.storePassword(password: self.password,email: self.email)
+//                            print("Password stored successfully.")
+//                            print("\(self.password)")
+//                            print("\(self.email)")
+//                        } catch KeychainManager.KeychainError.duplicateItem {
+//                            print("Duplicate item error: The password already exists in Keychain.")
+//                        } catch KeychainManager.KeychainError.unknown(let status) {
+//                            print("Add Unknown error: \(status)")
+//                        } catch {
+//                            print("Unexpected error: \(error)")
+//                        }
+
+                    case.failure(let error):
+                        if response.response?.statusCode == 400 {
+                            self.isShowingIncorectPassword = true
+                            
+                        }else{
+                            debugPrint("\(error)")
+                        }
+                    }
+                    
+                    
+                }
+        }
+        
+        
+         func validation() -> Bool {
+            return email.count<5 ||  password.count<5 || !email.contains("@")
+        }
           func retriveToken ()  {
               
               do {
@@ -91,47 +142,7 @@ extension ContentView{
             }
         }
         
-        func loginRequest() {
-            
-            let credential = LoginRequest(password: password, username: email)
-            
-            session.request(baseUrl, method: .post, parameters: credential, encoder: JSONParameterEncoder.default)
-                .responseDecodable(of: LoginResponse.self) { response in
-                    switch response.result{
-                    case.success(let data):
-                        DispatchQueue.main.async{
-                            self.responseModel = data
-                            self.tokenData = data.token
-                        }
-                        let token = data.token
-                        do{
-                            try KeychainManager.storePassword(password: token ,email: "token")
-                            print("Token stored successfully.")
-                        }catch {
-                            print("Unexpected error: \(error)")
-                        }
-                        
-                        do {
-                            try KeychainManager.storePassword(password: self.password,email: self.email)
-                            print("Password stored successfully.")
-                            print("\(self.password)")
-                            print("\(self.email)")
-                        } catch KeychainManager.KeychainError.duplicateItem {
-                            print("Duplicate item error: The password already exists in Keychain.")
-                        } catch KeychainManager.KeychainError.unknown(let status) {
-                            print("Add Unknown error: \(status)")
-                        } catch {
-                            print("Unexpected error: \(error)")
-                        }
-                        debugPrint("Token . Data:\(data.token)")
-                    case.failure(let error):
-                        debugPrint("\(error)")
-                    }
-                    
-                    
-                }
-        }
-        
+  
         
         
         
