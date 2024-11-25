@@ -1,0 +1,1 @@
+viewModel.email.count<5 ||  viewModel.password.count<5 || !viewModel.email.contains("@")
