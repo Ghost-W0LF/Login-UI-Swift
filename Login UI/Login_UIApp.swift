@@ -10,9 +10,25 @@ import SwiftUI
 @main
 struct Login_UIApp: App {
 
+    @ObservedObject private var router = Router()
+
     var body: some Scene {
         WindowGroup {
-            ContentView()
-        }
+              NavigationStack(path: $router.navPath) {
+                  ContentView()
+                  .navigationDestination(for: Router.Destination.self) { destination in
+                      switch destination {
+                      case .navigateLogin:
+                          ContentView()
+                      case .navigateHome:
+                          Home()
+               
+                         
+                      }
+                  }
+              }
+              .environmentObject(router)
+          }
+
     }
 }

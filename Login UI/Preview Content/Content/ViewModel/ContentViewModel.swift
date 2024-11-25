@@ -10,19 +10,18 @@ import Alamofire
 import Security
 
 extension ContentView{
-    @Observable
     class ViewModel: ObservableObject {
         
-        var email:String  = "Abhinab1221@gmail.com"
-         var password = "akkhatri"
-        var responseModel: LoginResponse?
-        var isShowingIncorectPassword = false
+        @Published  var email:String  = "Abhinab1221@gmail.com"
+        @Published    var password = "akkhatri"
+        @Published   var responseModel: LoginResponse?
+        @Published   var isShowingIncorectPassword = false
         let session = Session(interceptor: CustomInterceptor())
         let baseUrl = "https://tbe.thuprai.com/v1/api/login/"
+        @Published     var tokenData : String = ""
+        @Published var isAthunciated = false
         
-          var tokenData : String = ""
-        
-        func loginRequest() {
+        func loginRequest() async {
             
             let credential = LoginRequest(password: password, username: email)
             
@@ -33,6 +32,7 @@ extension ContentView{
                         DispatchQueue.main.async{
                             self.responseModel = data
                             self.tokenData = data.token
+                            self.isAthunciated = true
                         }
                         let token = data.token
                         // Store token
@@ -44,19 +44,20 @@ extension ContentView{
                         }
                         // Store password
                         
-//                        do {
-//                            try KeychainManager.storePassword(password: self.password,email: self.email)
-//                            print("Password stored successfully.")
-//                            print("\(self.password)")
-//                            print("\(self.email)")
-//                        } catch KeychainManager.KeychainError.duplicateItem {
-//                            print("Duplicate item error: The password already exists in Keychain.")
-//                        } catch KeychainManager.KeychainError.unknown(let status) {
-//                            print("Add Unknown error: \(status)")
-//                        } catch {
-//                            print("Unexpected error: \(error)")
-//                        }
-
+                        do {
+                            try KeychainManager.storePassword(password: self.password,email: self.email)
+                            print("Password stored successfully.")
+                            print("\(self.password)")
+                            print("\(self.email)")
+                        } catch KeychainManager.KeychainError.duplicateItem {
+                            print("Duplicate item error: The password already exists in Keychain.")
+                        } catch KeychainManager.KeychainError.unknown(let status) {
+                            print("Add Unknown error: \(status)")
+                        } catch {
+                            print("Unexpected error: \(error)")
+                        }
+                        
+                        
                     case.failure(let error):
                         if response.response?.statusCode == 400 {
                             self.isShowingIncorectPassword = true
@@ -65,45 +66,40 @@ extension ContentView{
                             debugPrint("\(error)")
                         }
                     }
-                    
-                    
                 }
+            
+            
         }
         
         
-         func validation() -> Bool {
+        func validation() -> Bool {
             return email.count<5 ||  password.count<5 || !email.contains("@")
         }
-          func retriveToken ()  {
-              
-              do {
-                  let token = try KeychainManager.retriveData(email: "token")
-                  debugPrint("token:\(token)")
-                  // Process the retrieved credit card data
-                  // For example, you can convert the data to a string or decode it as needed
-                  if let tokenInfo = String(data: token, encoding: .utf8) {
+        func retriveToken ()  {
+            
+            do {
+                let token = try KeychainManager.retriveData(email: "token")
+                debugPrint("token:\(token)")
+                
+                if let tokenInfo = String(data: token, encoding: .utf8) {
                     
-                      print("Your token: \(tokenInfo)")
-                      tokenData.self = tokenInfo
-                      
-                  
-                  } else {
-                      print("Failed to convert credit card data to a string.")
-                  }
-              
-              }catch{
-                  print(error)
-                  
-              }
-          }
-        func deleteValue() {
-            do{
-                try KeychainManager.deleteItem(keyPair: "token")
-                debugPrint("Token deleted ")
-            }catch{debugPrint(error)}
+                    print("Your token: \(tokenInfo)")
+                    tokenData.self = tokenInfo
+                    
+                    
+                } else {
+                    print("NO Token Foung Sorry :(.")
+                }
+                
+            }catch{
+                print("Retrive token error:- \(error)")
+                tokenData.self = ""
+            }
         }
         
-
+        
+        
+        
         
         func retrivePassword ()  {
             
@@ -114,16 +110,16 @@ extension ContentView{
                 if let emailInfo = String(data: email, encoding: .utf8) {
                     print("Your Password: \(emailInfo)")
                     self.password = emailInfo
-                
+                    
                 } else {
-                    print("Failed to convert credit card data to a string.")
+                    print("Failed to convert token to a string.")
                 }
-            
+                
             }catch{
                 print(error)
                 
             }
-        }  
+        }
         
         func updatePassword ()  {
             
@@ -142,7 +138,7 @@ extension ContentView{
             }
         }
         
-  
+        
         
         
         
