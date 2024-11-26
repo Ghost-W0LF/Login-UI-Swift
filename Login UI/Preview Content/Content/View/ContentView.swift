@@ -13,6 +13,7 @@ struct ContentView: View {
     
     
     var body: some View {
+        
         @State  var navigate = viewModel.tokenData != ""
         @State  var isShowingIncorrecrAleart = viewModel.isShowingIncorectPassword
         VStack() {
