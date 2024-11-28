@@ -40,7 +40,7 @@ struct Home: View {
             .alert("Do want to sign out ?", isPresented: $isShowingSignout){
             
             Button("Signout"){
-                router.navigateBack()
+                router.navigateToRoot()
                 viewModel.deleteValue()
                 
             }.navigationDestination(isPresented:$isNavigating, destination: {
